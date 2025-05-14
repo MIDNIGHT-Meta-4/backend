@@ -26,7 +26,7 @@ public class QuizService {
         try {
             // AI 서버로 퀴즈 데이터를 보내고 응답 받기
             QuizResponseDto quizResponseDto = aiClientService.requestImageFromAI(quizRequestDto);
-
+            System.out.println("quizResponseDto = " + quizResponseDto);
             // AI 서버 응답 검증
             if (quizResponseDto == null || quizResponseDto.getImageUrl() == null || quizResponseDto.getImageUrl().isEmpty()) {
                 throw new RuntimeException("AI 서버에서 유효한 응답을 받지 못했습니다.");

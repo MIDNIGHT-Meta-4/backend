@@ -20,12 +20,7 @@ public class QuizResponseDto {
     public QuizResponseDto() {
     }
 
-    /**
-     * 모든 필드를 초기화하는 생성자
-     * @param imageUrl 생성된 이미지 URL
-     * @param description 이미지 설명
-     * @param answer 퀴즈 정답
-     */
+
     public QuizResponseDto(String imageUrl, String description, String answer) {
         this.imageUrl = imageUrl;
         this.description = description;
