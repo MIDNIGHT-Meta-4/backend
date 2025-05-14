@@ -1,6 +1,5 @@
 package com.ohgiraffers.wordtoworld.controller;
 
-import com.ohgiraffers.wordtoworld.model.dto.AudioRequestDto;
 import com.ohgiraffers.wordtoworld.model.dto.QuizRequestDto;
 import com.ohgiraffers.wordtoworld.model.dto.QuizResponseDto;
 import com.ohgiraffers.wordtoworld.service.AudioForwardingService;
@@ -10,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:8080") 테스트 용
@@ -42,21 +41,19 @@ public class QuizController {
     }
 
     @PostMapping("/stt")
-    public ResponseEntity<String> handleSpeechToText(@RequestBody Map<String, String> requestMap) {
+    public ResponseEntity<String> handleSpeechToText(@RequestParam("file") MultipartFile file) {
         try {
             // 로깅을 통한 요청 확인
-            logger.info("STT 요청 받음: {}", requestMap);
+            logger.info("STT 요청 받음: 파일명={}, 크기={}", file.getOriginalFilename(), file.getSize());
             
-            // API 명세서에 따라 audio_url 파라미터를 사용
-            String audioUrl = requestMap.get("audio_url");
-            
-            if (audioUrl == null || audioUrl.trim().isEmpty()) {
-                logger.error("유효하지 않은 오디오 URL: {}", audioUrl);
+            // 파일 유효성 검사
+            if (file == null || file.isEmpty()) {
+                logger.error("유효하지 않은 오디오 파일");
                 return ResponseEntity.ok(""); // 빈 문자열 반환
             }
             
-            // AI 서버에 URL 전송하고 변환된 텍스트 받기
-            String resultText = audioForwardingService.sendAudioUrlToAi(audioUrl);
+            // AI 서버에 파일 전송하고 변환된 텍스트 받기
+            String resultText = audioForwardingService.sendAudioFileToAi(file);
             
             // 결과 로깅
             logger.info("STT 변환 결과: {}", resultText);
