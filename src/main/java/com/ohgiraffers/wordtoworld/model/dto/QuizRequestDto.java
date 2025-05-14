@@ -130,13 +130,13 @@ public class QuizRequestDto {
 
         // null이 아닌 키워드만 리스트에 추가
         List<String> keywordsList = new ArrayList<>();
-        if (KeyWord1 != null && !KeyWord1.trim().isEmpty()) {
+        if (KeyWord1 != "" && !KeyWord1.trim().isEmpty()) {
             keywordsList.add(KeyWord1);
         }
-        if (KeyWord2 != null && !KeyWord2.trim().isEmpty()) {
+        if (KeyWord2 != "" && !KeyWord2.trim().isEmpty()) {
             keywordsList.add(KeyWord2);
         }
-        if (KeyWord3 != null && !KeyWord3.trim().isEmpty()) {
+        if (KeyWord3 != "" && !KeyWord3.trim().isEmpty()) {
             keywordsList.add(KeyWord3);
         }
 

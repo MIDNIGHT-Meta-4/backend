@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,7 +72,7 @@ public class AiClientService {
                 Map<String, Object> responseData = response.getBody();
                 
                 // AI 서버로부터 받은 이미지 URL, 설명, 정답 추출
-                String imageUrl = AI_SERVER_URL_image + "/" + (String) responseData.get("image_url");
+                String imageUrl = "http://172.16.16.146:8000" + (String) responseData.get("image_url");
                 String description = (String) responseData.get("description");
                 String answer = (String) responseData.get("answer");
                 
@@ -88,49 +89,37 @@ public class AiClientService {
         }
     }
 
+    public Map<String, Object> requestVoiceFromAI(MultipartFile audioFile) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-//    public String requestVoiceFromAI(MultipartFile audioFile) {
-//        try {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//
-//            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//            body.add("file", audioFile.getResource());
-//
-//            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//
-//            ResponseEntity<String> response = restTemplate.postForEntity(
-//                    AI_SERVER_URL_voice,
-//                    requestEntity,
-//                    String.class
-//            );
-//
-//            if (response.getStatusCode().is2xxSuccessful()) {
-//                return response.getBody();
-//            } else {
-//                return "음성 인식 실패";
-//            }
-//        } catch (Exception e) {
-//            return "오류 발생: " + e.getMessage();
-//        }
-//    }
-//    /**
-//     * URL 형식이 유효한지 검사하는 도우미 메서드
-//     * @param url 검사할 URL 문자열
-//     * @return URL이 유효하면 true, 그렇지 않으면 false
-//     */
-//    private boolean isValidUrl(String url) {
-//        if (url == null || url.isEmpty()) {
-//            return false;
-//        }
-//
-//        try {
-//            // URL 클래스의 생성자를 통해 유효성 검사
-//            new URL(url);
-//            return true;
-//        } catch (MalformedURLException e) {
-//            // URL 형식이 잘못된 경우
-//            return false;
-//        }
-//    }
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("file", audioFile.getResource());
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    AI_SERVER_URL_voice,
+                    requestEntity,
+                    Map.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                // AI 서버에서 반환된 JSON을 그대로 반환
+                return response.getBody();
+            } else {
+                // 오류 시 오류 메시지가 포함된 JSON 반환
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "음성 인식 실패");
+                return errorResponse;
+            }
+        } catch (Exception e) {
+            logger.error("AI 서버 요청 중 오류 발생: {}", e.getMessage());
+            // 예외 발생 시 오류 메시지가 포함된 JSON 반환
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "오류 발생: " + e.getMessage());
+            return errorResponse;
+        }
+    }
 }

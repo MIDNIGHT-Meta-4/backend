@@ -7,8 +7,10 @@ import com.ohgiraffers.wordtoworld.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 public class QuizService {
@@ -88,9 +90,9 @@ public class QuizService {
         }
     }
 
-//    @Transactional
-//    public String voiceconnection(String voiceFileUrl) {
-//        return aiClientService.requestVoiceFromAI(voiceFileUrl);
-//    }
+    @Transactional
+    public Map<String, Object> voiceconnection(MultipartFile wavFile) {
+        return aiClientService.requestVoiceFromAI(wavFile);
+    }
 
 }
