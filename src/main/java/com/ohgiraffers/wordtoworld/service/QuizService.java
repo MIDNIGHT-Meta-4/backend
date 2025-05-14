@@ -1,15 +1,14 @@
-package com.ohgireffers.wordtoworld.service;
+package com.ohgiraffers.wordtoworld.service;
 
-import com.ohgireffers.wordtoworld.model.dto.QuizRequestDto;
-import com.ohgireffers.wordtoworld.model.dto.QuizResponseDto;
-import com.ohgireffers.wordtoworld.model.entity.Quiz;
-import com.ohgireffers.wordtoworld.repository.QuizRepository;
+import com.ohgiraffers.wordtoworld.model.dto.QuizRequestDto;
+import com.ohgiraffers.wordtoworld.model.dto.QuizResponseDto;
+import com.ohgiraffers.wordtoworld.model.entity.Quiz;
+import com.ohgiraffers.wordtoworld.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -89,8 +88,9 @@ public class QuizService {
         }
     }
 
-    @Transactional
-    public String voiceconnection(String voiceFileUrl) {
-        return aiClientService.requestVoiceFromAI(voiceFileUrl);
-    }
+//    @Transactional
+//    public String voiceconnection(String voiceFileUrl) {
+//        return aiClientService.requestVoiceFromAI(voiceFileUrl);
+//    }
+
 }

@@ -1,5 +1,4 @@
 package com.ohgiraffers.wordtoworld.service;
-
 import com.ohgiraffers.wordtoworld.model.dto.AudioResponseDto;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,7 @@ public class AudioForwardingService {
         );
 
         // 4. 결과 텍스트 반환
+
         return response.getBody().getResult_text();
     }
 }

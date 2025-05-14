@@ -1,4 +1,4 @@
-package com.ohgireffers.wordtoworld;
+package com.ohgiraffers.wordtoworld;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
