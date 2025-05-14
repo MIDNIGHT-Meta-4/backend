@@ -1,4 +1,4 @@
-package com.ohgireffers.wordtoworld.config;
+package com.ohgiraffers.wordtoworld.config;
 
 
 import org.springframework.context.annotation.Bean;

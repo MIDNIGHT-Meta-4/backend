@@ -1,6 +1,6 @@
-package com.ohgireffers.wordtoworld.repository;
+package com.ohgiraffers.wordtoworld.repository;
 
-import com.ohgireffers.wordtoworld.model.entity.Quiz;
+import com.ohgiraffers.wordtoworld.model.entity.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
