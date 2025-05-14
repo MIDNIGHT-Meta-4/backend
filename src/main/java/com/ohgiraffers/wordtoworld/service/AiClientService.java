@@ -71,11 +71,14 @@ public class AiClientService {
                 Map<String, Object> responseData = response.getBody();
                 
                 // AI 서버로부터 받은 이미지 URL, 설명, 정답 추출
-                String imageUrl = AI_SERVER_URL_image + "/" + (String) responseData.get("image_url");
-                String description = (String) responseData.get("description");
-                String answer = (String) responseData.get("answer");
+                String imageUrl = (responseData.get("image_url") != null) ? 
+                    AI_SERVER_URL_image + "/" + (String) responseData.get("image_url") : "";
+                String description = (responseData.get("description") != null) ? 
+                    (String) responseData.get("description") : "";
+                String answer = (responseData.get("answer") != null) ? 
+                    (String) responseData.get("answer") : "";
                 
-                // QuizResponseDto 객체 생성 및 반환 (정답 포함)
+                // QuizResponseDto 객체 생성 및 반환
                 return new QuizResponseDto(imageUrl, description, answer);
             } else {
                 // 실패 시 빈 응답 객체 반환

@@ -1,6 +1,7 @@
 package com.ohgiraffers.wordtoworld.model.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 /**

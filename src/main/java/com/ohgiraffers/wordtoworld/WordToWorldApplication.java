@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WordToWorldApplication {
+public class WordtoWorldApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WordToWorldApplication.class, args);
+        SpringApplication.run(WordtoWorldApplication.class, args);
     }
 
 }
