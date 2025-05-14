@@ -52,9 +52,12 @@ public class QuizController {
 //        // DB에 저장할 수도 있고, 여기서는 단순 반환
 //        return ResponseEntity.ok(resultText);
 //    }
+
 @PostMapping("/upload-audio-url")
 public ResponseEntity<String> handleAudioUrl(@RequestBody AudioRequestDto requestDto) {
     try {
+        System.out.println("handleAudioUrl");
+        System.out.println(requestDto);
         String resultText = audioForwardingService.sendAudioUrlToAi(requestDto.getAudioUrl());
         return ResponseEntity.ok(resultText);
     } catch (Exception e) {

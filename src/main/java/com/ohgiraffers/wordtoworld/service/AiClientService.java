@@ -26,7 +26,7 @@ import java.util.Map;
 public class AiClientService {
     // 로깅을 위한 Logger 객체 생성
     private static final Logger logger = LoggerFactory.getLogger(AiClientService.class);
-
+    
     // HTTP 요청을 위한 RestTemplate
     private final RestTemplate restTemplate;
 
@@ -65,18 +65,18 @@ public class AiClientService {
 
             // API 호출 및 응답 받기
             ResponseEntity<Map> response = restTemplate.postForEntity(AI_SERVER_URL_image, entity, Map.class);
-
+            
             // 응답이 성공적으로 왔는지 확인 (2xx 상태 코드)
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseData = response.getBody();
-
+                
                 // AI 서버로부터 받은 이미지 URL, 설명, 정답 추출
-                String imageUrl = (String) responseData.get("image_url");
-                String explanation = (String) responseData.get("explanation");
+                String imageUrl = AI_SERVER_URL_image + "/" + (String) responseData.get("image_url");
+                String description = (String) responseData.get("description");
                 String answer = (String) responseData.get("answer");
-
+                
                 // QuizResponseDto 객체 생성 및 반환 (정답 포함)
-                return new QuizResponseDto(imageUrl, explanation, answer);
+                return new QuizResponseDto(imageUrl, description, answer);
             } else {
                 // 실패 시 빈 응답 객체 반환
                 return new QuizResponseDto("", "이미지 생성에 실패했습니다.", "");
@@ -89,48 +89,48 @@ public class AiClientService {
     }
 
 
-    public String requestVoiceFromAI(MultipartFile audioFile) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("file", audioFile.getResource());
-
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-            ResponseEntity<String> response = restTemplate.postForEntity(
-                    AI_SERVER_URL_voice,
-                    requestEntity,
-                    String.class
-            );
-
-            if (response.getStatusCode().is2xxSuccessful()) {
-                return response.getBody();
-            } else {
-                return "음성 인식 실패";
-            }
-        } catch (Exception e) {
-            return "오류 발생: " + e.getMessage();
-        }
-    }
-    /**
-     * URL 형식이 유효한지 검사하는 도우미 메서드
-     * @param url 검사할 URL 문자열
-     * @return URL이 유효하면 true, 그렇지 않으면 false
-     */
-    private boolean isValidUrl(String url) {
-        if (url == null || url.isEmpty()) {
-            return false;
-        }
-
-        try {
-            // URL 클래스의 생성자를 통해 유효성 검사
-            new URL(url);
-            return true;
-        } catch (MalformedURLException e) {
-            // URL 형식이 잘못된 경우
-            return false;
-        }
-    }
+//    public String requestVoiceFromAI(MultipartFile audioFile) {
+//        try {
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//
+//            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+//            body.add("file", audioFile.getResource());
+//
+//            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+//
+//            ResponseEntity<String> response = restTemplate.postForEntity(
+//                    AI_SERVER_URL_voice,
+//                    requestEntity,
+//                    String.class
+//            );
+//
+//            if (response.getStatusCode().is2xxSuccessful()) {
+//                return response.getBody();
+//            } else {
+//                return "음성 인식 실패";
+//            }
+//        } catch (Exception e) {
+//            return "오류 발생: " + e.getMessage();
+//        }
+//    }
+//    /**
+//     * URL 형식이 유효한지 검사하는 도우미 메서드
+//     * @param url 검사할 URL 문자열
+//     * @return URL이 유효하면 true, 그렇지 않으면 false
+//     */
+//    private boolean isValidUrl(String url) {
+//        if (url == null || url.isEmpty()) {
+//            return false;
+//        }
+//
+//        try {
+//            // URL 클래스의 생성자를 통해 유효성 검사
+//            new URL(url);
+//            return true;
+//        } catch (MalformedURLException e) {
+//            // URL 형식이 잘못된 경우
+//            return false;
+//        }
+//    }
 }
